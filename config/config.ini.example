@@ -1,0 +1,25 @@
+[Credentials]
+; Discord Account token
+Token = 352353u28t02ug982398tgu08fe0u209ut0ujg0j0pg3
+
+; Token for bots.discord.pw
+Dbots_Token = 89fyh29ytg8923yhg98hg9wehgukwehgwehfuwugjroibujwbwoghjowejgowejge0wjgowiowjgoijweg
+
+
+[Bot]
+; The ID of your own account
+Owner_ID = 23342747294324
+
+; Prefix
+Command_Prefix = k!
+
+; Assets home folder
+; This works out of the box.
+home = assets/
+
+[Reddit]
+PRAW_Client_ID = ayf82tj
+
+PRAW_Client_Secret = nahfey9723994823
+
+PRAW_User_Agent = somebot
