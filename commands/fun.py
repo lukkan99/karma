@@ -147,8 +147,10 @@ class Fun():
 
         msg = await self.bot.say("Searching for a dank meme..")
         Subreddit = "dankmemes"
-
-        posts = list(r.subreddit(Subreddit).hot(limit=100))
+        try:
+            posts = list(r.subreddit(Subreddit).hot(limit=100))
+        except:
+            raise SearchError("What is that subreddit?")
         try:
             post = random.choice(posts)
         except:
@@ -197,7 +199,7 @@ class Fun():
         try:
             posts = list(r.subreddit(Subreddit).hot(limit=100))
         except:
-            raise SearchError("What is that subreddit?!")
+            raise SearchError("What is that subreddit?")
         try:
             post = random.choice(posts)
         except:
