@@ -6,48 +6,22 @@ from discord.ext import commands
 
 from utils.tools import *
 from utils.lists import *
-import praw
 
 from utils.config import Config
 config = Config()
 
-r = praw.Reddit(client_id=config.praw_id,
-                     client_secret=config.praw_secret,
-                     user_agent=config.praw_agent)
+
 
 class Pics():
     def __init__(self, bot):
         self.bot = bot
 
     @commands.command(pass_context=True)
-    async def reddit(self, ctx, *, Subreddit):
+    async def reddit(self, ctx, *, Subreddit:str):
         """Gets a reddit pic. [NSFW/SFW, DEPENDS ON THE CHANNEL]"""
         msg = await self.bot.say("Searching for a post in /r/{}...".format(Subreddit))
 
-        try:
-            posts = list(r.subreddit(Subreddit).hot(limit=100))
-        except:
-            raise SearchError("What is that subreddit?!")
-        try:
-            post = random.choice(posts)
-        except:
-            raise SearchError("Nothing found")
-        if post.over_18 and ctx.message.channel.name != "nsfw" and not ctx.message.channel.name.startswith("nsfw-"):
-            imgurl = "http://jaqreven.com/angery.png"
-            pageurl = "https://en.wikipedia.org/wiki/Pornography_addiction"
-            titletext = "Content rated 18+, please switch to an NSFW channel."
-        else:
-            imgurl = post.url
-            pageurl = post.shortlink
-            titletext = "/r/{}".format(Subreddit)
-
-        foundit = False
-        suffixes = [".png", ".jpg", ".jpeg", ".bmp", ".webp", ".gif", ".tiff"]
-        for suffix in suffixes:
-            if suffix in imgurl:
-                foundit = True
-                break
-
+        imgurl, pageurl, titletext, foundit = get_reddit(Subreddit, ctx.message.channel.name, False)
 
         em = discord.Embed()
         if foundit == True:

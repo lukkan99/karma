@@ -146,27 +146,8 @@ class Fun():
         """Random image shitpost"""
 
         msg = await self.bot.say("Searching for a dank meme..")
-        Subreddit = "dankmemes"
-        try:
-            posts = list(r.subreddit(Subreddit).hot(limit=100))
-        except:
-            raise SearchError("What is that subreddit?")
-        try:
-            post = random.choice(posts)
-        except:
-            raise SearchError("Nothing found")
 
-        imgurl = post.url
-        pageurl = post.shortlink
-        titletext = "/r/{}".format(Subreddit)
-
-        foundit = False
-        suffixes = [".png", ".jpg", ".jpeg", ".bmp", ".webp", ".gif", ".tiff"]
-        for suffix in suffixes:
-            if suffix in imgurl:
-                foundit = True
-                break
-
+        imgurl, pageurl, titletext, foundit = get_reddit("dankmemes", ctx.message.channel.name, True)
 
         em = discord.Embed()
         if foundit == True:
@@ -194,28 +175,8 @@ class Fun():
         """Let's pretend that surreal memes aren't dead yet."""
 
         msg = await self.bot.say("Searching for a surreal meme..")
-        Subreddit = "surrealmemes"
 
-        try:
-            posts = list(r.subreddit(Subreddit).hot(limit=100))
-        except:
-            raise SearchError("What is that subreddit?")
-        try:
-            post = random.choice(posts)
-        except:
-            raise SearchError("Nothing found")
-
-        imgurl = post.url
-        pageurl = post.shortlink
-        titletext = "/r/{}".format(Subreddit)
-
-        foundit = False
-        suffixes = [".png", ".jpg", ".jpeg", ".bmp", ".webp", ".gif", ".tiff"]
-        for suffix in suffixes:
-            if suffix in imgurl:
-                foundit = True
-                break
-
+        imgurl, pageurl, titletext, foundit = get_reddit("surrealmemes", ctx.message.channel.name, True)
 
         em = discord.Embed()
         if foundit == True:
