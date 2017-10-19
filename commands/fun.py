@@ -30,7 +30,7 @@ class Fun():
             await self.bot.delete_message(ctx.message)
         except:
             pass
-        await self.bot.say(u"\u200B" + Message.replace("@everyone", "@everyjuan").replace("@here", "@hare"))
+        await self.bot.say(u"\u200B" + Message)
 
     @commands.command(pass_context=True)
     async def pick(self, ctx, *, List:str):
@@ -39,13 +39,13 @@ class Fun():
         if len(item) < 2:
             raise SyntaxError("Give me multiple things to choose from seperated by commas.")
             return
-        await self.bot.say("Hmm.. :thinking:.. I'd choose {}".format(random.choice(item)).replace("  ", " ").replace("@everyone", "@everyjuan").replace("@here", "@hare"))
+        await self.bot.say("Hmm.. :thinking:.. I'd choose {}".format(random.choice(item)).replace("  ", " "))
 
 
     @commands.command(pass_context=True)
     async def reverse(self, ctx, *, Message:str):
         """The thing you told me, but.. backwards."""
-        await self.bot.say(u"\u200B" + Message[::-1].replace("@everyone", "@everyjuan").replace("@here", "@hare"))
+        await self.bot.say(u"\u200B" + Message[::-1])
 
     @commands.command(pass_context=True)
     async def mocking(self, ctx, *, Message:str):
@@ -60,7 +60,7 @@ class Fun():
             if char != ' ':
                 i = not i
         location = config.home + "pics/mocking.jpg"
-        await self.bot.send_file(ctx.message.channel, location, content=ret.replace("@everyone", "@everyjuan").replace("@here", "@hare"))
+        await self.bot.send_file(ctx.message.channel, location, content=ret)
 
 
 
@@ -70,8 +70,6 @@ class Fun():
 
         randinsult = random.choice(open(config.home + "txt/insult.txt", encoding='utf-8').readlines()).rstrip('\n')
         randinsult = randinsult.format(Member.display_name, ctx.message.author.display_name)
-        if Member.id == "152078083522822145":
-            randinsult = "Okay, how would I insult you.. uhh.. YOU'RE SUPER CUTE AND I LOVE YOU! Yeah, that works."
         await self.bot.say(randinsult + ".")
 
     @commands.command(pass_context=True)
@@ -105,10 +103,6 @@ class Fun():
 
 
 
-
-
-
-
     #
     #▒█▀▀▀█ ▒█░▒█ ▀█▀ ▀▀█▀▀ ▒█▀▀█ ▒█▀▀▀█ ▒█▀▀▀█ ▀▀█▀▀
     #░▀▀▀▄▄ ▒█▀▀█ ▒█░ ░▒█░░ ▒█▄▄█ ▒█░░▒█ ░▀▀▀▄▄ ░▒█░░
@@ -132,14 +126,6 @@ class Fun():
         vid = random.choice(open(config.home + "txt/horror.txt").readlines())
         await self.bot.say("Eh, I'm blaming {} for this one: {}".format(chars, vid))
 
-    @commands.command()
-    async def intro(self):
-        """broken for now"""
-
-        chars = random.choice(open(config.home + "txt/characters.txt", encoding='utf-8').readlines()).rstrip('\n')
-        vid = random.choice(open(config.home + "txt/intros.txt").readlines())
-        await self.bot.say("Eh, I'm blaming {} for this one: {}".format(chars, vid))
-
 
     @commands.command(pass_context=True)
     async def meme(self, ctx):
@@ -161,15 +147,6 @@ class Fun():
         em.set_footer(text="{}".format(ctx.message.author))
         await self.bot.edit_message(msg, "​", embed=em)
 
-
-    @commands.command(pass_context=True)
-    async def rulettaja(self, ctx):
-        """Leaked pics of a Finnish Youtuber"""
-        location = config.home + "pics/rulettaja/" + random.choice(os.listdir(config.home + "pics/rulettaja"))
-        msg = random.choice(dabtype)
-        await self.bot.send_file(ctx.message.channel, location, content=msg)
-
-
     @commands.command(pass_context=True)
     async def surreal(self, ctx):
         """Let's pretend that surreal memes aren't dead yet."""
@@ -189,6 +166,13 @@ class Fun():
         em.color = ctx.message.server.me.color
         em.set_footer(text="{}".format(ctx.message.author))
         await self.bot.edit_message(msg, "​", embed=em)
+
+    @commands.command(pass_context=True)
+    async def rulettaja(self, ctx):
+        """Leaked pics of a Finnish Youtuber"""
+        location = config.home + "pics/rulettaja/" + random.choice(os.listdir(config.home + "pics/rulettaja"))
+        msg = random.choice(dabtype)
+        await self.bot.send_file(ctx.message.channel, location, content=msg)
 
 
     @commands.command(pass_context=True)

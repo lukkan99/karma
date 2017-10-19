@@ -123,6 +123,7 @@ async def on_message(message):
     if message.author.bot or message.channel.is_private:
         return
 
+    message.content = message.content.replace("@everyone", "@everyjuan").replace("@here", "@hare")
     await bot.process_commands(message)
 
 @bot.command(pass_context=True)
