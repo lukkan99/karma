@@ -2,4 +2,4 @@ language: python
 python:
   - "3.5"
 before_install:
-  - pip install aiohttp discord.py colorlog praw requests asyncio websockets psutils
+  - pip install aiohttp discord.py colorlog praw requests asyncio websockets psutil

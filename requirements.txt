@@ -5,4 +5,4 @@ praw
 requests
 asyncio
 websockets
-psutils
+psutil
