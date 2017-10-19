@@ -1,2 +1,1 @@
-shard_id = 0
-shard_count = 1
+shard_count = 2
