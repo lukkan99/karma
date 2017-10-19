@@ -6,3 +6,4 @@ requests
 asyncio
 websockets
 psutil
+pytest

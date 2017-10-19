@@ -7,6 +7,7 @@ import subprocess
 import psutil
 import random
 import platform
+import pytest
 
 from time import gmtime, strftime
 
