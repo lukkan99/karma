@@ -33,7 +33,7 @@ class Moderation():
             raise PermissionsError("You don't have the permission `ban_members`")
             return
         if Member == ctx.message.author:
-            raise PermissionsError("Eh.. what?!")
+            raise PermissionsError("Don't do this to yourself!")
             return
         em = discord.Embed()
         em.title = "Bans"
@@ -77,7 +77,7 @@ Reason: **{}**""".format(Member, ctx.message.author, reason)
             raise PermissionsError("You don't have the permission `kick_members`")
             return
         if Member == ctx.message.author:
-            raise PermissionsError("Eh.. what?!")
+            raise PermissionsError("Don't do this to yourself!")
             return
         em = discord.Embed()
         em.title = "Kicks"
@@ -130,7 +130,7 @@ Reason: **{}**""".format(Member, ctx.message.author, reason)
             raise PermissionsError("Hey, don't mute me :(")
             return
         if Member == ctx.message.author:
-            raise PermissionsError("Eh.. what?!")
+            raise PermissionsError("Don't do this to yourself!")
             return
 
         perms = channeli.permissions_for(Member)
@@ -181,7 +181,7 @@ Command used by **{}**.""".format(Member, where, ctx.message.author)
             raise PermissionsError("Eh? :(")
             return
         if Member == ctx.message.author:
-            raise PermissionsError("Eh.. what?!")
+            raise PermissionsError("Don't do this to yourself!")
             return
 
         perms = channeli.permissions_for(Member)

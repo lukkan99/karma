@@ -182,8 +182,7 @@ async def stats(ctx):
     developer = await bot.get_user_info(developer)
 
     em = discord.Embed(description="\u200b")
-    em.title = bot.user.name + " Stats | Click to open my website"
-    em.url = "http://jaqreven.com"
+    em.title = bot.user.name + " Stats"
     em.set_thumbnail(url=bot.user.avatar_url)
     em.color = ctx.message.server.me.color
 
