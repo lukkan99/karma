@@ -1,0 +1,8 @@
+aiohttp
+discord.py
+colorlog
+praw
+requests
+asyncio
+websockets
+psutils
