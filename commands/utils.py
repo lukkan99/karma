@@ -40,6 +40,12 @@ class Utils():
         """Get invite links for the bot"""
         await self.bot.say("Here's the link to invite me: <http://invite.jaqreven.com>")
 
+    @commands.command(aliases=["gh"])
+    async def github(self):
+        """Haha, generic GitHub link!"""
+        link = "<https://github.com/jaqreven/karma>"
+        await self.bot.say("Here's the link to my GitHub page: " + link)
+
     @commands.command(pass_context=True)
     async def b64(self, ctx, *, String:str):
         """Encode to / Decode from Base64"""
