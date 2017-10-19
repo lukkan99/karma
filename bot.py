@@ -7,7 +7,6 @@ import subprocess
 import psutil
 import random
 import platform
-import pytest
 
 from time import gmtime, strftime
 
@@ -35,26 +34,18 @@ log.enableDebugging() # hi this is totally my original code *cough*
 bot = commands.Bot(command_prefix=config.command_prefix, description="A bot for shitposting, NSFW, moderation etc.", shard_id=shard_id, shard_count=shard_count)
 aiosession = aiohttp.ClientSession(loop=bot.loop)
 
-extensions = ["commands.roleplay", "commands.fun", "commands.utils", "commands.pics", "commands.moderation"]
-
-
-async def _restart_bot():
-    await bot.logout()
-    subprocess.call([sys.executable, "bot.py"])
-
-async def _shutdown_bot():
-    try:
-        aiosession.close()
-    except:
-        pass
-    await bot.logout()
-
 
 async def set_default_status():
     type = discord.Status.online
     game = discord.Game(name="{0}help | Shard {1}/{2} | {3} servers on shard {1}".format(str(config.command_prefix), shard_id + 1, shard_count, len(bot.servers)))
     await bot.change_presence(status=type, game=game)
 
+async def bot_shutdown():
+    try:
+        aiosession.close()
+    except:
+        pass
+    await bot.logout()
 
 @bot.event
 async def on_server_join(server):
@@ -74,12 +65,13 @@ async def on_ready():
     print("Version: {}\nAuthor: {}\nCodename: {}\nBuild date: {}\n".format(BUILD_VERSION, BUILD_AUTHORS, codename, BUILD_DATE))
     log.debug("Debugging is enabled!\n\n")
     await set_default_status()
-    for extension in extensions:
-        try:
-            bot.load_extension(extension)
-            log.debug("Loaded extension {}.".format(extension))
-        except Exception as e:
-            log.error("Error in extension {}\n{}: {}".format(extension, type(e).__name__, e))
+    for extension in os.listdir("commands"):
+            if extension.endswith(".py"):
+                try:
+                    bot.load_extension("commands." + extension[:-3])
+                    log.debug("Loaded extension {}.".format(extension))
+                except Exception as e:
+                    log.error("Error in extension {}\n{}: {}".format(extension, type(e).__name__, e))
     if config._dbots_token:
         print("\n")
         log.debug("Updating DBots Statistics...")
@@ -126,6 +118,15 @@ async def on_message(message):
 
     message.content = message.content.replace("@everyone", "@everyjuan").replace("@here", "@hare")
     await bot.process_commands(message)
+
+
+@bot.command(pass_context=True, hidden=True)
+async def shutdown(ctx):
+    """Turns the bot off"""
+    if ctx.message.author.id == config.owner_id:
+        await bot.say("Bye!")
+        log.warning("{} has turned off the bot!".format(ctx.message.author))
+        await bot_shutdown()
 
 @bot.command(pass_context=True)
 async def stats(ctx):

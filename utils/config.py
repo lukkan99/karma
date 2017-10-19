@@ -10,9 +10,9 @@ class Defaults:
     owner_id = None
     home = None
     command_prefix = "k!"
-    praw_id = None
-    praw_secret = None
-    praw_agent = None
+    praw_id = ""
+    praw_secret = ""
+    praw_agent = ""
 
 class Config:
     def __init__(self):

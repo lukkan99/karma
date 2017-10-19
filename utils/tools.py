@@ -6,9 +6,10 @@ import random
 from utils.config import Config
 config = Config()
 
+
 r = praw.Reddit(client_id=config.praw_id,
-                     client_secret=config.praw_secret,
-                     user_agent=config.praw_agent)
+    client_secret=config.praw_secret,
+    user_agent=config.praw_agent)
 
 def get_avatar(user):
     if user.avatar:
@@ -17,6 +18,8 @@ def get_avatar(user):
         return user.default_avatar_url
 
 def get_reddit(Subreddit, channel, forceimg=False):
+    if config.praw_id == "" or config.praw_secret == "" or config.praw_agent == "":
+        raise TypeError("Reddit support not set up.")
     try:
         posts = list(r.subreddit(Subreddit).hot(limit=100))
     except:
