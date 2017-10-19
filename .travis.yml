@@ -3,3 +3,5 @@ install: "pip install nose pylint"
 python:
   - "3.5"
 script: "nosetests && pylint --rcfile=pylintconfig.yml bot.py commands/roleplay.py commands/fun.py commands/utils.py commands/moderation.py commands/pics.py utils/buildinfo.py"
+before-install:
+  - pip install aiohttp discord.py colorlog praw requests asyncio websockets psutil 
