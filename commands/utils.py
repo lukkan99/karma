@@ -31,16 +31,14 @@ class Utils():
     @commands.command(pass_context=True)
     async def support(self, ctx):
         """Get help related to the bot"""
-        await self.bot.say(":ok_hand: http://support.jaqreven.com")
+        await self.bot.say("""Having a problem? You may either join our Discord or report an issue at our GitHub.
+        GitHub: <https://github.com/jaqreven/karma/issues>
+        Discord: <http://support.jaqreven.com>""")
 
     @commands.command(pass_context=True)
     async def invite(self, ctx):
         """Get invite links for the bot"""
-        await self.bot.say("""Main bot: <http://invite.jaqreven.com>
-Might not have as many features, but is more stable.
-
-Beta bot: <http://invitebeta.jaqreven.com>
-New features are tested here, expect some downtime.""")
+        await self.bot.say("Here's the link to invite me: <http://invite.jaqreven.com>")
 
     @commands.command(pass_context=True)
     async def b64(self, ctx, *, String:str):
