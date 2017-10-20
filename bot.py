@@ -14,20 +14,28 @@ from discord.ext import commands
 from utils.config import Config
 from utils.tools import *
 
-from utils.shards import shard_id
 from utils.shards import shard_count
 from utils.logger import log
+
+import builtins
+from utils.buildinfo import *
+import argparse
 
 start_time = time.time()
 
 log.init() # Yes I could just use __init__ but I'm dumb
 
 
-
-import builtins
-from utils.buildinfo import *
-
 cmdcount = 0
+
+parser = argparse.ArgumentParser()
+parser.add_argument("shard_id", help="Gets your shard ID. Shards enabled: {}".format(shard_count), type=int)
+args = parser.parse_args()
+
+# PLEASE FOR THE LOVE OF JESUS SOMEONE FIGURE OUT A BETTER SYSTEM
+# LIKE A THING THAT STARTS ALL SHARDS AUTOMATICALLY
+
+shard_id = args.shard_id
 
 config = Config()
 log.enableDebugging() # hi this is totally my original code *cough*
@@ -61,7 +69,7 @@ async def on_server_remove(server):
 async def on_ready():
     codename = BUILD_CODENAME.split("<")[0].replace("*", "")
     print("\n")
-    print("Logged in.\n\nUser: {}\nUser ID: {}\n".format(bot.user, bot.user.id))
+    print("Logged in.\n\nUser: {}\nUser ID: {}\nShard: {}".format(bot.user, bot.user.id, shard_id))
     print("Version: {}\nAuthor: {}\nCodename: {}\nBuild date: {}\n".format(BUILD_VERSION, BUILD_AUTHORS, codename, BUILD_DATE))
     log.debug("Debugging is enabled!\n\n")
     await set_default_status()
@@ -91,16 +99,16 @@ async def on_command_error(error, ctx):
         return
 
     em = discord.Embed(colour=ctx.message.server.me.color)
-    em.set_author(name='Whoops! What happened?', icon_url=ctx.message.author.avatar_url)
+    em.set_author(name=random.choice(errormsgs), icon_url=ctx.message.author.avatar_url)
     em.description = str(error)
-    em.set_footer(text="You might want to contact us with {0}support | {1}".format(config.command_prefix, ctx.message.author))
+    em.set_footer(text="{0}support | {1}".format(config.command_prefix, ctx.message.author))
 
     try:
         await bot.send_message(ctx.message.channel, embed=em)
     except:
         return
     e = str(error).encode('ascii', 'replace')
-    log.error("An error occured while executing the command named {}: {}".format(ctx.command.qualified_name, e))
+    log.error("An error occured while executing command {}: {}".format(ctx.command.qualified_name, e))
 
 @bot.event
 async def on_command(command, ctx):
@@ -131,10 +139,10 @@ async def shutdown(ctx):
 @bot.command(pass_context=True)
 async def stats(ctx):
     """Gets various stats about the bot"""
-    members = str(sum(len(s.members) for s in bot.servers)) #*int(shard_count)
-    online = str(sum(1 for m in bot.get_all_members() if m.status != discord.Status.offline)) #*int(shard_count)
-    servers = str(int(len(bot.servers))) #*int(shard_count)
-    channels = str(sum(len(s.channels) for s in bot.servers)) #*int(shard_count)
+    members = sum(len(s.members) for s in bot.servers) * int(shard_count)
+    online = int(sum(1 for m in bot.get_all_members() if m.status != discord.Status.offline)) * int(shard_count)
+    servers = int(len(bot.servers)) * int(shard_count)
+    channels = int(sum(len(s.channels) for s in bot.servers)) * int(shard_count)
 
 
     cpuse = psutil.cpu_percent()
@@ -194,7 +202,7 @@ async def stats(ctx):
     em.add_field(name='Members', value="<:offline:313956277237710868> Total: {}\n<:online:313956277808005120> Online: {}".format(members, online), inline=True)
     em.add_field(name='CPU', value=":heavy_division_sign: Usage: {}%\n:heavy_multiplication_x: Cores: {}c/{}t".format(cpuse, cpucore, cputhread), inline=True)
     em.add_field(name='Uptime', value=":alarm_clock: " + uptime.replace("\n", "\n:alarm_clock: "), inline=True)
-    em.add_field(name='Bot', value=":desktop: Servers: {}\n:slot_machine: Channels: {}\n:diamond_shape_with_a_dot_inside: Shards: {}".format(servers, channels, shard_count), inline=True)
+    em.add_field(name='Bot', value=":desktop: Servers: {}\n:slot_machine: Channels: {}\n:diamond_shape_with_a_dot_inside: Shard: {}/{}".format(servers, channels, shard_id+1, shard_count), inline=True)
 
     em.add_field(name="Versions", value="<:python:326138379689525259> Python {}\n<:discord:314003252830011395> discord.py {}\n<:centos:326138388576993301> CentOS {}".format(pyver, discpy, centver), inline=True)
     em.add_field(name="Memory", value=":film_frames: Total: {}mb\n:film_frames: Available: {}mb\n:film_frames: Used: {}mb".format(memt, mema, memu), inline=True)
