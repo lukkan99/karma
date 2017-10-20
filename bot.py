@@ -32,7 +32,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("shard_id", help="Gets your shard ID. Shards enabled: {}".format(shard_count), type=int)
 args = parser.parse_args()
 
-# PLEASE FOR THE LOVE OF JESUS SOMEONE FIGURE OUT A BETTERY SYSTEM
+# PLEASE FOR THE LOVE OF JESUS SOMEONE FIGURE OUT A BETTER SYSTEM
+# LIKE A THING THAT STARTS ALL SHARDS AUTOMATICALLY
 
 shard_id = args.shard_id
 
@@ -98,16 +99,16 @@ async def on_command_error(error, ctx):
         return
 
     em = discord.Embed(colour=ctx.message.server.me.color)
-    em.set_author(name='Whoops! What happened?', icon_url=ctx.message.author.avatar_url)
+    em.set_author(name=random.choice(errormsgs), icon_url=ctx.message.author.avatar_url)
     em.description = str(error)
-    em.set_footer(text="You might want to contact us with {0}support | {1}".format(config.command_prefix, ctx.message.author))
+    em.set_footer(text="{0}support | {1}".format(config.command_prefix, ctx.message.author))
 
     try:
         await bot.send_message(ctx.message.channel, embed=em)
     except:
         return
     e = str(error).encode('ascii', 'replace')
-    log.error("An error occured while executing the command named {}: {}".format(ctx.command.qualified_name, e))
+    log.error("An error occured while executing command {}: {}".format(ctx.command.qualified_name, e))
 
 @bot.event
 async def on_command(command, ctx):
